@@ -28,7 +28,22 @@ let defaults = {
 				likes: 16,
 				comments: 0,
 			},
-		}
+		},
+		{
+			name: "Make up Drama M",
+			desc: "+15% comments",
+			amount: 0.15,
+			level: 1,
+			type: "comment",
+			cost: {
+				likes: 100,
+				comments: 40,
+			},
+			requires: {
+				likes: 50,
+				comments: 10,
+			},
+		},
 	],
 	
 	likeGain: 1,

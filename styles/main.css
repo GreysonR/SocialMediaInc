@@ -38,7 +38,7 @@ header {
 	display: grid;
 	grid-template-areas: "info title"
 						 "info main";
-	grid-template-columns: 25vw 1fr;
+	grid-template-columns: 25vw 75vw;
 	grid-template-rows: 9vw calc(200vh - 9vw);
 	
 	width: 100vw;
@@ -68,4 +68,21 @@ header {
 
 	position: relative;
 	z-index: 1;
+}
+
+@media only screen and (min-width: 1500px) {
+	body {
+		width: 120vw;
+		transform: scale(0.833);
+		transform-origin: left top;
+	}
+	header {
+		width: 120vw;
+	}
+	#content {
+		grid-template-columns: 25vw 95vw;
+	}
+	#main {
+		height: 130%;
+	}
 }

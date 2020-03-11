@@ -82,6 +82,7 @@
 	padding-right: 4vw;
 
 	position: relative;
+	overflow: hidden;
 }
 #postWrapper #profile {
 	grid-area: profile;

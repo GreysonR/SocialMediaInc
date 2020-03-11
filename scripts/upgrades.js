@@ -68,18 +68,18 @@ function createElem(options, callback) {
 function checkPrereq(upgrade) {
 	if (!upgrade.requires) return true;
 	let {likes, comments} = upgrade.requires;
-
-	return likes >= yourStats.likes && comments > yourStats.comments;
+	return (likes <= yourStats.likes && comments <= yourStats.comments || upgrade.shown);
 }
 function loadUpgrades() {
 	let allUpgradesWrapper = document.getElementById("upgrades");
 	allUpgradesWrapper.innerHTML = "";
 	
-	for (let i = yourStats.upgrades.length; i--;) {
+	for (let i = 0; i < yourStats.upgrades.length; i++) {
 		let upgrade = yourStats.upgrades[i];
 		if (upgrade.bought) continue;
 		if (!checkPrereq(upgrade)) continue;
 		let {name, desc, cost} = upgrade;
+		upgrade.shown = true;
 
 		let wrapper = createElem({
 			id: name.toCamel(),

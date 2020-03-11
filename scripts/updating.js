@@ -33,6 +33,10 @@ function updatePosts() {
 			comments = Math.round(newComments);
 			timeAlive +=  1 / fps / 10;
 
+			if (lastComments != comments) {
+				yourStats.comments += (comments - lastComments) * commentGain;
+				document.getElementById("totalComments").innerText = format(Math.round(yourStats.comments), true);
+			}
 			if (lastLikes != likes) {
 				yourStats.likes += (likes - lastLikes) * likeGain;
 				document.getElementById("totalLikes").innerText = format(Math.round(yourStats.likes), true);
@@ -44,10 +48,11 @@ function updatePosts() {
 					yourStats.followers += newFollowers * followerGain;
 					document.getElementById("totalFollowers").children[0].innerText = format(Math.round(yourStats.followers), true);
 				}
+
+				loadUpgrades();
 			}
-			if (lastComments != comments) {
-				yourStats.comments += (comments - lastComments) * commentGain;
-				document.getElementById("totalComments").innerText = format(Math.round(yourStats.comments), true);
+			else if (comments != lastComments) {
+				loadUpgrades(); // Used to make sure it doesn't reload 2x
 			}
 	
 			yourStats.recentPosts[i] = {
@@ -63,7 +68,6 @@ function updatePosts() {
 		else if (likesDiv.innerText != format(Math.ceil(likes), true)) {
 			likesDiv.innerText = format(Math.ceil(likes), true);/**/
 		}
-
 	}
 
 	requestAnimationFrame(updatePosts);
