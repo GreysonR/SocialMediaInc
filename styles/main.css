@@ -1,0 +1,71 @@
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-user-drag: none;
+}
+body {
+	overflow: scroll;
+	overflow-x: hidden;
+	background: #EAEAEA;
+}
+::-webkit-scrollbar {
+	width: 6px;
+	background: #E9E9E9;
+}
+::-webkit-scrollbar-thumb {
+	background: #C2C2C2;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #a0a0a0;
+}
+::selection {
+	background: #a9dbf152;
+}
+
+header {
+	width: 100vw;
+	height: 40vh;
+
+	margin-bottom: -4.7vh;
+
+	background: #333;
+	background-image: url("../images/bokeh.jpg");
+	background-repeat: no-repeat;
+	background-position-y: top;
+	background-size: cover;
+}
+#content {
+	display: grid;
+	grid-template-areas: "info title"
+						 "info main";
+	grid-template-columns: 25vw 1fr;
+	grid-template-rows: 9vw calc(200vh - 9vw);
+	
+	width: 100vw;
+	background: transparent;
+}
+#content::before {
+	display: block;
+	content: "";
+
+	width: 100vw;
+	height: 100%;
+	
+	position: absolute;
+	top: 34.5vh;
+	left: 0;
+	background: #EAEAEA;
+}
+
+#main {
+	grid-area: main;
+	display: block;
+
+	height: 100%;
+	width: 100%;
+	
+	background: #F6F6F6;
+
+	position: relative;
+	z-index: 1;
+}

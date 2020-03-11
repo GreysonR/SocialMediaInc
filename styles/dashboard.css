@@ -1,0 +1,151 @@
+#dashboard {
+}
+
+#dashboardTitle {
+	font-family: "Oxygen", sans-serif;
+	font-weight: lighter;
+	font-size: 1.5vw;
+	color: #171717;
+	
+	margin-left: 3vw;
+	margin-top:    1.7vw;
+	margin-bottom: 1vw;
+}
+#dashboardTitle span {
+	color: #878787;
+}
+#sponsorships {
+	margin-left: 3vw;
+	margin-top: 0.6vw;
+	
+	width: 50vw;
+	height: 15vw;
+	padding: 2vw;
+
+	background: #EFEFEF;
+	border: 2px solid #E1E1E1;
+	border-radius: 1vw;
+}
+
+#dashboard #upgrades {
+	display: grid;
+	grid-template-columns: repeat(2, 24vw);
+	grid-auto-rows: 15vw;
+	row-gap: 3.5vw;
+	column-gap: 5vw;
+	grid-auto-columns: min-content;
+
+	width: 50vw;
+	margin-left: 3vw;
+}
+
+#dashboard #upgrades .upgrade {
+	width: 100%;
+	height: 100%;
+
+	background: #EFEFEF;
+	border: 2px solid #E1E1E1;
+	border-radius: 0.6vw;
+
+	font-family: "Oxygen", sans-serif;
+	font-weight: lighter;
+	font-size: 1.3vw;
+	color: #4A4A4A;
+
+	display: grid;
+	grid-template-areas: "title"
+						 "desc"
+						 "cost";
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr, 3fr, 0.5fr 0.5fr;
+
+	user-select: none;
+	cursor: pointer;
+	transition: transform 0.15s, background 0.1s;
+}
+.upgrade.bought {
+	background-color: #dcffea !important;
+}
+.upgrade.blocked {
+	background-color: #ffd9d6 !important;
+}
+#dashboard #upgrades .upgrade:hover {
+	transform: scale(1.02);
+}
+#upgradeTitle {
+	color: #242424;
+	font-size: 2.2vw;
+
+	margin-top: 1.7vw;
+	margin-left: 2.1vw;
+}
+#upgradeDesc, #upgradeCostTitle {
+	width: 70%;
+
+	color: #5e5e5e;
+	font-size: 1.4vw;
+	line-height: 1.5vw;
+
+	margin-left: 2.1vw;
+	margin-top: 0.5vw;
+	margin-bottom: 0.2vw;
+}
+#upgradeDesc {
+	margin-top: -0.8vw;
+}
+
+.upgrade div #costs {
+	margin-top: 0.3vw;
+	margin-left: 2.1vw;
+	transform: rotateY(0deg);
+}
+
+#likes {
+	display: inline-block;
+	margin-left: 0.4vw;
+	color: #F53327;
+}
+#money {
+	color: #208d51;
+	padding: 0;
+}
+#comments {
+	display: inline-block;
+	margin-left: 2vw;
+	color: #333;
+}
+#money::before {
+	display: inline;
+	content: "$";
+}
+#likes::before {
+	display: inline-block;
+	content: "";
+
+	position: relative;
+	top: 0.3vw;
+	left: -0.4vw;
+
+	width:  1.5vw;
+	height: 1.5vw;
+
+	background-image: url("../images/like.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+#comments::before {
+	display: inline-block;
+	content: "";
+
+	position: relative;
+	top: 0.4vw;
+	left: -0.4vw;
+
+	width: 1.5vw;
+	height: 1.5vw;
+
+	background-image: url("../images/comment.png");
+	background-position-y: 0.1vh;
+	background-repeat: no-repeat;
+	background-size: contain;
+}

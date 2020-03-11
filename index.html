@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Followers</title>
+	<link rel="stylesheet" type="text/css" href="./styles/main.css">
+	<link rel="stylesheet" type="text/css" href="./styles/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="./styles/titlebar.css">
+	<link rel="stylesheet" type="text/css" href="./styles/posts.css">
+	<link rel="stylesheet" type="text/css" href="./styles/chat.css">
+	<link rel="stylesheet" type="text/css" href="./styles/dashboard.css">
+	<link rel="stylesheet" type="text/css" href="./fonts/fonts.css">
+</head>
+<body>
+	<header>
+		<div id="backgroundImg"></div>
+	</header>
+	<div id="content">
+		<div id="sideBar">
+			<div id="userIcon"></div>
+			<div id="basicInfo">
+				<p id="quote">"When life gives you lemons, throw the lemons back!"</p>
+				<span id="numPosts">0 posts</span>
+				<span id="dateCreated">Joined March 6, 2020</span>
+			</div>
+			<div id="goals">
+				<p>Goals:</p>
+				<ul>
+					<li class="completed">Get a post with 100 likes</li>
+					<li>Get a post with 25 comments</li>
+					<li>Get a post with 1k likes</li>
+					<li>Get a post with 500 comments</li>
+					<li>Get to 1k followers</li>
+					<li>Get involved in some drama</li>
+					<li>Hit 100k followers</li>
+					<li>Get a post with 1m likes</li>
+					<li>Get a post with 100k comments</li>
+					<li>Win!</li>
+				</ul>
+			</div>
+		</div>
+		<div id="title">
+			<nav>
+				<div class="sectionTab active" onclick="goToTab('posts')"><span>Posts</span></div>
+				<div class="sectionTab" onclick="goToTab('dashboard')"><span>Dashboard</span></div>
+			</nav>
+			<div style="margin-left: 4.3vw;">
+				<div id="nameTitle">
+					Adam Frasier
+					<div id="editIcon"></div>
+				</div>
+				<div id="resources">
+					<div id="totalFollowers"><span>0</span> Followers</div>
+					<div id="totalLikes">0</div>
+					<div id="totalComments">0</div>
+					<div id="totalMoney">0</div>
+				</div>
+			</div>
+		</div>
+		<div id="main">
+			<div id="posts" class="active">
+				<textarea onchange="" id="postInput" placeholder="Type here to write post..." autocomplete="false" spellcheck="false"ondrop="return false;"></textarea>
+				<div id="postButton" onclick="post()">Post</div>
+				<div id="feed">
+					<!--
+					<div id="postWrapper">
+						<div id="profile"></div>
+						<div id="values">
+							<div id="name">Adam Frasier</div>
+							<div id="text">Lorem ipsum dolor sit amet, consectetur</div>
+						</div>
+						<div id="likes">8.8k</div>
+						<div id="comments">8.8k</div>
+					</div>
+					-->
+				</div>
+			</div>
+			<div id="dashboard">
+				<p id="dashboardTitle">Sponsorships<span> - click to accept or buy</span></p>
+				<div id="sponsorships"></div>
+				<p id="dashboardTitle">Upgrades</span></p>
+				<div id="upgrades">
+					<!--
+					<div class="upgrade" id="makeDramaSmall">
+						<div id="upgradeTitle">Make up Drama S</div>
+						<div id="upgradeDesc">
+							+10% comments on next 5 posts
+						</div>
+						<div>
+							<div id="upgradeCostTitle">Costs</div>
+							<div id="costs">
+								<div id="likes">10</div>
+								<div id="comments">5</div>
+							</div>
+						</div>
+					</div>
+					-->
+				</div>
+			</div>
+		</div>
+		<div id="chatWrapper">
+			<div id="chatButton"></div>
+			<div id="chatBox">
+				<div id="topBar">
+					<div id="minButton"></div>
+				</div>
+				<div id="messagesWrapper">
+					<div id="message">Congrats on 1,000 followers! You have now unlocks advertisements</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="scripts/saving.js"></script>
+<script src="scripts/upgrades.js"></script>
+<script src="scripts/sentences.js"></script>
+<script src="scripts/posts.js"></script>
+<script src="scripts/menus.js"></script>
+<script src="scripts/updating.js"></script>
+</html>
