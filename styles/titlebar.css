@@ -52,6 +52,24 @@
 	background: #F6F6F6;
 	padding-bottom: 1.4vw;
 }
+#title nav .sectionTab.alert {
+	color: #f3a616;
+	animation: showSectionTabAlert 0.4s infinite;
+}
+@keyframes showSectionTabAlert {
+	0% {
+		color: #f7a000;
+	}
+	50% {
+		color: #f7a000;
+	}
+	50.1% {
+		color: #222;
+	}
+	99.9% {
+		color: #222;
+	}
+}
 #title nav .sectionTab:not(.active):hover {
 	cursor: pointer;
 }
@@ -93,9 +111,9 @@
 }
 #resources {
 	display: grid;
-	grid-template-areas: "followers likes comments money";
+	grid-template-areas: "followers likes comments money time";
 	grid-auto-flow: row;
-	grid-template-columns: 17vw 12vw 12vw 12vw;
+	grid-template-columns: 17vw 12vw 12vw 12vw 12vw;
 
 	letter-spacing: 0px;
 }

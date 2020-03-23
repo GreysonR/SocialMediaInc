@@ -13,6 +13,17 @@
 	<link rel="stylesheet" type="text/css" href="./fonts/fonts.css">
 </head>
 <body>
+	<div id="editNameWrapper">
+		<input id="nameEditInput" maxlength="20" type="text" placeholder="Name"><br>
+		<div id="submitName" class="tooShort" onclick="submitName()">Save</div>
+	</div>
+	<div id="loseWrapper">
+		<span>You ran out of money<br>Better luck next time</span>
+		<div id="loseButton" onclick="reset()">Play again</div>
+	</div>
+	<div id="nextPaymentWrapper" class="inactive">
+		<div id="timeLeft"><span id="paymentTime">1 minute 20 seconds</span> until next rent payment of <span id="paymentAmount">$100</span></div>
+	</div>
 	<header>
 		<div id="backgroundImg"></div>
 	</header>
@@ -27,16 +38,18 @@
 			<div id="goals">
 				<p>Goals:</p>
 				<ul>
-					<li class="completed">Get a post with 100 likes</li>
-					<li>Get a post with 25 comments</li>
-					<li>Get a post with 1k likes</li>
-					<li>Get a post with 500 comments</li>
-					<li>Get to 1k followers</li>
+					<li>Get 15 likes - unlocks Make up Drama S on your <h5 style='font-size:1.1vw;display:inline;font-family:"Oxygen", sans-serif;'>Dashboard</h5></li>
 					<li>Get involved in some drama</li>
-					<li>Hit 100k followers</li>
-					<li>Get a post with 1m likes</li>
-					<li>Get a post with 100k comments</li>
-					<li>Win!</li>
+					<li>Get 100 likes and 20 comments - unlocks Go outside S</li>
+					<li>Get 50 likes - unlocks sponsorships + rent</li>
+					<li>Get 50 comments - unlocks Drama M</li>
+					<li>Get 1k likes - unlocks Go outside M</li>
+					<li>Get 25k likes - unlocks Go outside L</li>
+					<li>Get to 500 likes - unlocks Burrow Bear sponsorship</li>
+					<li>Get to 1.5k likes - unlocks Previous Pass sponsorship</li>
+					<li>Get to 10k likes and 1k comments - unlocks AbilityShare sponsorship</li>
+					<li>Hit 100k likes - unlocks merch!</li>
+					<li>Get 1m followers - Win!</li>
 				</ul>
 			</div>
 		</div>
@@ -48,13 +61,13 @@
 			<div style="margin-left: 4.3vw;">
 				<div id="nameTitle">
 					<span>Adam Frasier</span>
-					<div id="editIcon"></div>
+					<div id="editIcon" onclick="editName()"></div>
 				</div>
 				<div id="resources">
 					<div id="totalFollowers"><span>0</span> Followers</div>
 					<div id="totalLikes">0</div>
 					<div id="totalComments">0</div>
-					<div id="totalMoney">0</div>
+					<div id="totalMoney">100</div>
 				</div>
 			</div>
 		</div>
@@ -125,6 +138,7 @@
 
 <script src="scripts/saving.js"></script>
 <script src="scripts/upgrades.js"></script>
+<script src="scripts/achievements.js"></script>
 <script src="scripts/sentences.js"></script>
 <script src="scripts/posts.js"></script>
 <script src="scripts/menus.js"></script>

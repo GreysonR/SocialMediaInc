@@ -1,8 +1,9 @@
 "use strict";
-
 let lastUpdate = new Date().getTime();
 let fps = 60;
 function updatePosts() {
+	if (lost) return;
+
 	let likeGain = yourStats.likeGain;
 	let commentGain = yourStats.commentGain;
 	let followerGain = yourStats.followerGain;
@@ -50,9 +51,13 @@ function updatePosts() {
 				}
 
 				loadUpgrades();
+				loadSponsorships();
+				checkAchievements();
 			}
 			else if (comments != lastComments) {
 				loadUpgrades(); // Used to make sure it doesn't reload 2x
+				loadSponsorships();
+				checkAchievements();
 			}
 	
 			yourStats.recentPosts[i] = {
@@ -68,8 +73,74 @@ function updatePosts() {
 		else if (likesDiv.innerText != format(Math.ceil(likes), true)) {
 			likesDiv.innerText = format(Math.ceil(likes), true);/**/
 		}
+
+		let totalMoneyDiv = document.getElementById("totalMoney");
+		if (format(yourStats.money, true) != totalMoneyDiv.innerHTML) {
+			totalMoneyDiv.innerHTML = format(yourStats.money, true);
+		}
 	}
 
 	requestAnimationFrame(updatePosts);
 }
 updatePosts();
+
+
+function formatTime(seconds) {
+	if (seconds === undefined) seconds = this;
+
+	let minutes = Math.floor(seconds / 60);
+	let hours = Math.floor(seconds / 3600);
+	seconds = seconds % 60;
+
+	hours = hours ? `${hours} hour${(hours === 1 ? "" : "s")}` : "";
+	minutes = minutes ? `${minutes} minute${(minutes === 1 ? "" : "s")}` : "";
+	seconds = (minutes || hours) && seconds === 0 ? "" : `${seconds} second${(seconds === 1 ? "" : "s")}`;
+
+	return `${hours} ${minutes} ${seconds}`.trim();
+}
+Number.prototype.toTime = formatTime;
+setInterval(() => {
+	let paymentWrapper = document.getElementById("nextPaymentWrapper");
+	if (yourStats.nextPayment == Infinity) {
+		if (!paymentWrapper.classList.contains("inactive")) {
+			paymentWrapper.classList.add("inactive");
+		}
+	}
+	else {
+		if (paymentWrapper.classList.contains("inactive")) {
+			paymentWrapper.classList.remove("inactive");
+		}
+
+		yourStats.nextPayment = yourStats.nextPayment - 1;
+		if (yourStats.nextPayment < 0) {
+			yourStats.money -= yourStats.rentCost;
+
+			if (yourStats.money < 0) {
+				document.getElementById("loseWrapper").classList.add("active");
+				lost = true;
+
+				yourStats = defaults;
+				saveGame();
+				return;
+			}
+
+			yourStats.timesPayed++;
+			yourStats.nextPayment = 60 + yourStats.timesPayed*5;
+			yourStats.rentCost = Math.round(yourStats.rentCost * 1.5 / 15) * 15;
+
+			document.getElementById("paymentAmount").innerHTML = `$${yourStats.rentCost}`;
+		}
+		document.getElementById("paymentTime").innerHTML = yourStats.nextPayment.toTime();
+		
+		if (yourStats.nextPayment % 5 === 0) {
+			saveGame();
+		}
+	}
+
+}, 1000);
+
+
+
+loadUpgrades();
+loadSponsorships();
+checkAchievements();

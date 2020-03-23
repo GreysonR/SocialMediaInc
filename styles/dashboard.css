@@ -37,29 +37,35 @@
 }
 #sponsorships .sponsorship {
 	width: 100%;
-	height: 100%;
 	padding-left: 1.5vw;
-	padding-top: 0.5vw;
+	padding-top: 0.2vw;
+	padding-bottom: 0.2vw;
 	
 	background: #F4F6F7;
+	border-bottom: 1px solid #ccc;
 	
 	font-family: "Oxygen", sans-serif;
 	font-weight: lighter;
 	text-align: left;
-	font-size: 1.5vw;
+	font-size: 1.35vw;
+	line-height: 2.5vw;
 	color: #222;
 	
 	user-select: none;
-	
-	border-bottom: 1px solid #ccc;
+
+	transition: background 0.15s;
 }
 #sponsorships .sponsorship:hover {
-	background: #F0F3F3;
+	background: #e8ebeb;
+	cursor: pointer;
+}
+#sponsorships .sponsorship.accepted {
+	background: #b8f8d5;
 	cursor: pointer;
 }
 #sponsorships .sponsorship #sponsorshipAmount {
 	color: #208d51;
-	margin-left: 0.5vw;
+	margin-left: 1.5vw;
 }
 
 #noSponsorshipsTitle.inactive {
@@ -159,7 +165,12 @@
 	margin-left: 0.4vw;
 	color: #F53327;
 }
-#money {
+#followers {
+	display: inline-block;
+	margin-left: 0.4vw;
+	color: #1da0f7;
+}
+#money, #paymentAmount {
 	color: #208d51;
 	padding: 0;
 }
@@ -171,6 +182,10 @@
 #money::before {
 	display: inline;
 	content: "$";
+}
+#followers::after {
+	display: inline-block;
+	content: " followers";
 }
 #likes::before {
 	display: inline-block;

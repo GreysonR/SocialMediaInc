@@ -31,14 +31,14 @@ String.prototype.toCamel = toCamel;
 String.prototype.fromCamel = fromCamel;
 
 function createElem(options, callback) {
-	let {id, className, elemType, text, parent} = options;
+	let {id, className, type, text, parent} = options;
 	id = !id ? "" : id;
 	className = !className ? "" : className;
 	text = !text ? "" : text;
-	elemType = !elemType ? "div" : elemType;
+	type = !type ? "div" : type;
 	parent = !parent ? document.body : parent;
 
-	let elem = document.createElement(elemType);
+	let elem = document.createElement(type);
 	elem.id = id;
 	elem.className = className;
 	elem.innerText = text;
@@ -66,9 +66,11 @@ function createElem(options, callback) {
 	</div>
  */
 function checkPrereq(upgrade) {
+	if (upgrade.type === "win") return yourStats.followers >= 1000000;
 	if (!upgrade.requires) return true;
-	let {likes, comments} = upgrade.requires;
-	return (likes <= yourStats.likes && comments <= yourStats.comments || upgrade.shown);
+	let {likes, comments, followers} = upgrade.requires;
+	followers = followers || 0;
+	return (likes <= yourStats.likes && comments <= yourStats.comments && followers <= yourStats.followers || upgrade.shown);
 }
 function loadUpgrades() {
 	let allUpgradesWrapper = document.getElementById("upgrades");
@@ -113,16 +115,31 @@ function loadUpgrades() {
 			id: "costs",
 			parent: div,
 		});
-		createElem({
-			id: "likes",
-			parent: costs,
-			text: cost.likes || 0,
-		});
-		createElem({
-			id: "comments",
-			parent: costs,
-			text: cost.comments || 0,
-		});
+		if (upgrade.name != "Win") {
+			createElem({
+				id: "likes",
+				parent: costs,
+				text: format(cost.likes, true) || 0,
+			});
+			createElem({
+				id: "comments",
+				parent: costs,
+				text: format(cost.comments, true) || 0,
+			});
+		}
+		else {
+			createElem({
+				id: "followers",
+				parent: costs,
+				text: "1m ",
+			});
+			let commentsDiv = createElem({
+				id: "comments",
+				parent: costs,
+				text: "0",
+			});
+			commentsDiv.style.display = "none";
+		}
 	}
 }
 loadUpgrades();
@@ -132,6 +149,11 @@ function buyUpgrade(event) {
 	let elem = event.path.filter(a => a.classList && a.classList.contains("upgrade"))[0];
 	let upgrade = elem.upgrade;
 	let {likes, comments} = upgrade.cost;
+
+	if (upgrade.type === "win") {
+		reset();
+		return;
+	}
 
 	if (!upgrade.bought && yourStats.likes >= likes && yourStats.comments >= comments && !elem.classList.contains("bought") && !elem.classList.contains("blocked")) {
 		yourStats.likes -= likes;
@@ -144,6 +166,7 @@ function buyUpgrade(event) {
 
 		if (upgrade.buyOnce) {
 			upgrade.bought = true;
+			elem.parentNode.removeChild(elem);
 		}
 
 		yourStats[upgrade.type+"Gain"] += upgrade.amount;
@@ -170,5 +193,88 @@ function buyUpgrade(event) {
 		setTimeout(() => {
 			elem.classList.remove("blocked");
 		}, 200);
+	}
+	checkAchievements();
+}
+
+
+
+//
+// SPONSORSHIPS
+//
+
+/**
+	<div class="sponsorship" id="attackDarknessMyths">
+		Attack Darkness Myths
+		<span id="sponsorshipAmount">+$100</span>
+	</div>
+ */
+function loadSponsorships() {
+	let all = yourStats.sponsorships;
+	let parent = document.getElementById("sponsorships");
+	let noSponsors = document.getElementById("noSponsorshipsTitle");
+
+	noSponsors = noSponsors.cloneNode(true);
+	parent.innerHTML = "";
+	parent.appendChild(noSponsors);
+	let hasSponsorships = false;
+
+	for (let i = all.length; i--;) {
+		if (checkPrereq(all[i])) {
+			hasSponsorships = true;
+			let name = all[i].name;
+			let wrapper = createElem({
+				id: name.toCamel(),
+				className: "sponsorship",
+				text: name,
+				parent: parent,
+			});
+			createElem({
+				id: "sponsorshipAmount",
+				text: `+$${all[i].amount}`,
+				parent: wrapper,
+				type: "span",
+			});
+			wrapper.addEventListener("click", acceptSponsor);
+			wrapper.sponsor = all[i];
+
+			if (!all[i].shownBefore && !document.getElementsByClassName("sectionTab")[1].classList.contains("active")) {
+				document.getElementsByClassName("sectionTab")[1].classList.add("alert");
+			}
+			all[i].shownBefore = true;
+		}
+	}
+
+	if (hasSponsorships) {
+		document.getElementById("noSponsorshipsTitle").classList.add("inactive");
+	}
+	else {
+		document.getElementById("noSponsorshipsTitle").classList.remove("inactive");
+	}
+}
+loadSponsorships();
+
+function acceptSponsor(event) {
+	let elem = event.path.filter(a => a.classList && a.classList.contains("sponsorship"))[0];
+	let sponsor = elem.sponsor;
+
+	if (!elem.classList.contains("accepted")) {
+		yourStats.money += sponsor.amount;
+		sponsor.boughtBefore = true;
+
+		// Update upgrades
+		sponsor.requires.likes = Math.round(sponsor.requires.likes * 3);
+		sponsor.requires.comments = Math.round(sponsor.requires.comments * 3);
+
+		if (sponsor.buyOnce) {
+			sponsor.bought = true;
+		}
+
+		// Update UI
+		document.getElementById("totalMoney").innerHTML = format(Math.round(yourStats.money), true);
+		elem.children["sponsorshipAmount"].innerHTML = "+$"+format(Math.round(sponsor.amount), true);
+
+		loadSponsorships();
+		saveGame();
 	}
 }

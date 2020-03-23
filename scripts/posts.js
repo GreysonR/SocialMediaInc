@@ -1,5 +1,4 @@
 "use strict";
-
 let posts = {
 	get sentence() {
 		return sentences[Math.floor(Math.random() * sentences.length)];
@@ -18,8 +17,10 @@ window.addEventListener("contextmenu", event => {
 });
 
 input.addEventListener("keydown", event => {
+	if (lost) return;
+
 	// Check that key is a letter
-	requestAnimationFrame(() => {
+	setTimeout(() => {
 		input.value = "";
 
 		if (inputPosition < currentPost.length) { // Go to next character
@@ -37,8 +38,40 @@ input.addEventListener("keydown", event => {
 				post();
 			}
 		}
-	});
+	}, 0);
 });
+
+let editNameWrapper = document.getElementById("editNameWrapper");
+let nameEditInput = document.getElementById("nameEditInput");
+let submitNameButton = document.getElementById("submitName");
+nameEditInput.addEventListener("keydown", key => {
+	setTimeout(() => {
+		if (nameEditInput.value.length) {
+			submitNameButton.classList.remove("tooShort");
+		}
+		else {
+			submitNameButton.classList.add("tooShort");
+		}
+		if (key.which === 13) {
+			submitName();
+		}
+	}, 0);
+});
+function editName() {
+	editNameWrapper.classList.add("active");
+}
+function submitName() {
+	if (nameEditInput.value) {
+		yourStats.name = nameEditInput.value.replace(/<|>|\(|\)|\[|\]|\/|\\/g, "");
+		editNameWrapper.classList.remove("active");
+		document.getElementById("nameTitle").children[0].innerText = yourStats.name;
+
+		let posts = document.getElementsByClassName("post");
+		for (let i = posts.length; i--;) {
+			posts[i].children["values"].children["name"].innerText = yourStats.name;
+		}
+	}
+}
 
 function post() {
 	if (postButton.classList.contains("active")) {
@@ -95,7 +128,7 @@ function createPost(options) {
 	}
 
 	if (creator === "you") {
-		creator = yourStats.yourName;
+		creator = yourStats.name;
 	}
 
 	let wrapper = document.createElement("div");
@@ -123,7 +156,7 @@ function createPost(options) {
 	values.appendChild(name);
 	values.appendChild(textDiv);
 
-	name.innerText = yourStats.yourName;
+	name.innerText = yourStats.name;
 	textDiv.innerText = text;
 	likesDiv.innerText = likes;
 	commentsDiv.innerText = comments;
